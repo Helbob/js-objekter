@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      article {
+        border: 2px solid black;
+        margin: 1%;
+        padding: 1%;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="data-container"></section>
+    <template>
+      <article class="animals">
+        <h3></h3>
+        <img src="" alt="" />
+        <p class="type">Type:</p>
+        <p class="levested">Levested:</p>
+      </article>
+    </template>
+    <script>
+      document.addEventListener("DOMContentLoaded", vis);
+      const fil = "alleDyr.json";
+
+      async function hentdata(fil) {
+        const resultat = await fetch(fil);
+        const json = await resultat.json();
+        vis(json);
+      }
+
+      function vis(json) {
+        console.log("DOM loaded");
+
+        const container = document.querySelector(".data-container");
+        const animalsTemplate = document.querySelector("template");
+        const animals = document.querySelector(".animals");
+
+        json.forEach((animal) => {
+          let kopi = animalsTemplate.cloneNode(true).content;
+          kopi.querySelector("h3").textContent = animal.navn;
+          kopi.querySelector("img").src = animal.billede;
+          kopi.querySelector(".type").textContent += animal.type;
+          kopi.querySelector(".levested").textContent += animal.levested;
+          container.appendChild(kopi);
+        });
+      }
+
+      hentdata(fil);
+    </script>
+  </body>
+</html>
